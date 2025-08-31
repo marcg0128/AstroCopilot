@@ -46,7 +46,7 @@ async def get_lastthree():
 
     data = r.json()
 
-    return {"lastthree": [item["url"] for item in data]}
+    return {"lastthree": [item for item in data]}
 
 
 
