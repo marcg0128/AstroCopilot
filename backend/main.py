@@ -1,6 +1,7 @@
 # backend/main.py
 import os
 import requests
+import datetime
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,6 +30,25 @@ async def get_background():
     data = r.json()
 
     return {"background": data["url"]}
+
+@app.get("/lastthree")
+async def get_lastthree():
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
+    three_days_before = datetime.date.today() - datetime.timedelta(days=3)
+
+    params = {
+        "api_key": api_key,
+        "start_date": three_days_before,
+        "end_date": yesterday
+    }
+
+    r = requests.get(f"{base_url}planetary/apod", params=params)
+
+    data = r.json()
+
+    return {"lastthree": [item["url"] for item in data]}
+
+
 
 
 if __name__ == "__main__":

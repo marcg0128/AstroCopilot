@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Cards from "@/components/Cards";
 
 export default function Home() {
   const [background, setBackground] = useState("");
@@ -69,7 +70,16 @@ export default function Home() {
         ref={secondDivRef}
         className="relative flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat"
       >
-        {/* Weiterer Content */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+          <Cards
+            props={{
+              imageUrl: "https://via.placeholder.com/300",
+              title: "Card 1",
+              description: "This is the description for Card 1.",
+            }}
+          />
+
+        </div>
       </div>
     </main>
   );
