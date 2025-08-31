@@ -27,9 +27,8 @@ app.add_middleware(
 async def get_background():
     r = requests.get(f"{base_url}planetary/apod?api_key={api_key}")
     data = r.json()
-    print(data)
-    if "url" in data:
-        return {"background": data["url"]}
+
+    return {"background": data["url"]}
 
 
 if __name__ == "__main__":
