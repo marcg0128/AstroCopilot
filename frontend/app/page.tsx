@@ -17,18 +17,31 @@ export default function Home() {
       }, []);
 
       useEffect(() => {
-        const handleScroll = () => {
-          if (firstDivRef.current) {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
-              const rect = firstDivRef.current.getBoundingClientRect();
-            setScrolled(rect.bottom <= 0);
-          }
-        };
+          const handleScroll = () => {
+            if (firstDivRef.current && secondDivRef.current) {
+              // Position vom ersten Div
+              const rect1 = firstDivRef.current.getBoundingClientRect();
+              // Position vom zweiten Div
+              const rect2 = secondDivRef.current.getBoundingClientRect();
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-      }, []);
+              // Runterwandern: wenn erstes Div aus dem Viewport raus ist
+              if (rect1.bottom <= rect1.height / 2) {
+                setScrolled(true);
+              }
+
+              // Hochwandern: wenn man wieder hochscrollt und
+              // der zweite Div kurz vorm Verschwinden nach oben ist
+              if (rect2.top >= window.innerHeight - 200) {
+                setScrolled(false);
+              }
+            }
+          };
+
+          window.addEventListener("scroll", handleScroll);
+          return () => window.removeEventListener("scroll", handleScroll);
+        }, []);
+
+
 
       type NasaItem = {
           url: string;
