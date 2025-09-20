@@ -62,13 +62,14 @@ export default function Home() {
       }, []);
 
       const [activeItem, setActiveItem] = useState('Planeten');
+      const [showSearchInput, setShowSearchInput] = useState(false);
 
       const navItems = [
         { name: 'Planeten', icon: '🪐' },
         { name: 'Galaxien', icon: '🌌' },
         { name: 'Sterne', icon: '⭐' },
         { name: 'Missionen', icon: '🚀' },
-        { name: 'Entdeckungen', icon: '🔭' }
+        { name: 'Entdecken', icon: '🔭' }
       ];
 
       // Mouse-Follow Handler
@@ -79,6 +80,16 @@ export default function Home() {
 
         e.currentTarget.style.setProperty('--mouse-x', `${x}%`);
         e.currentTarget.style.setProperty('--mouse-y', `${y}%`);
+      };
+
+      // Handle Entdeckungen click
+      const handleNavClick = (itemName: string) => {
+        setActiveItem(itemName);
+        if (itemName === 'Entdecken') {
+          setShowSearchInput(true);
+        } else {
+          setShowSearchInput(false);
+        }
       };
 
       return (
@@ -154,7 +165,7 @@ export default function Home() {
                     {navItems.map((item) => (
                       <button
                         key={item.name}
-                        onClick={() => setActiveItem(item.name)}
+                        onClick={() => handleNavClick(item.name)}
                         onMouseMove={activeItem !== item.name ? handleMouseMove : undefined}
                         className={`group relative flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-out transform hover:-translate-y-1 hover:scale-105 ${
                           activeItem === item.name
@@ -186,6 +197,30 @@ export default function Home() {
                       </button>
                     ))}
                   </div>
+
+                  {/* Search Input Field - erscheint bei Entdeckungen */}
+                  {showSearchInput && (
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 z-30">
+                      <div className="bg-[#0a0a0a]/95 backdrop-blur-md border border-[#171717] rounded-2xl p-4 shadow-lg shadow-orange-500/20">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-2xl">🔭</span>
+                          <input
+                            type="text"
+                            placeholder="Suche nach was ganz bestimmtes..."
+                            className="bg-gray-800/50 text-white placeholder-gray-400 border border-gray-600 rounded-full px-4 py-2 min-w-80 focus:outline-none focus:ring-2 focus:ring-[#f97316] focus:border-transparent transition-all duration-300"
+                            autoFocus
+                          />
+                          <button className="bg-gradient-to-r from-[#f97316] to-orange-600 text-white px-4 py-2 rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-300 flex items-center space-x-2">
+                            <span>🚀</span>
+                            <span>Suchen</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Pfeil nach oben */}
+                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-[#0a0a0a]/95 border-l border-t border-[#171717] rotate-45"></div>
+                    </div>
+                  )}
                 </nav>
 
               <div className="w-full max-w-6xl px-4 mb-10 top-100">
