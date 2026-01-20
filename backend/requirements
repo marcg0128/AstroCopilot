@@ -2,3 +2,4 @@ fastapi
 requests
 dotenv
 uvicorn[standard]
+skyfield
