@@ -1,15 +1,8 @@
 import requests
+import time
 
 from backend.helper.readTLE import get_tle_data
 from backend.helper.skyfield import get_coordinates
-
-NORAD_IDS = [
-    25544,  # ISS
-    20580,  # Hubble
-    48274,  # Tiangong
-    39634,  # Sentinel-1A
-    40697,  # Sentinel-2A
-]
 
 BASE_URL = "https://celestrak.org/NORAD/elements/gp.php"
 
@@ -27,16 +20,26 @@ def fetch_satellite_data(norad_id: int = None, group=None, format: str = "TLE"):
     response.raise_for_status()
     return response.content
 
-def test():
-    all_satellites = {}
-    for norad_id in NORAD_IDS:
-        data = fetch_satellite_data(norad_id=norad_id)
-        all_satellites[norad_id] = data.decode('utf-8')
+def get_all_satellites_coordinates(norad_ids: list):
+    all_satellites_tle = {}
+    all_satellites_data = {}
 
-    for norad_id, tle_string in all_satellites.items():
+    for id in norad_ids:
+        data = fetch_satellite_data(norad_id=id)
+        all_satellites_tle[id] = data.decode('utf-8')
+        time.sleep(0.5)
+
+
+    for norad_id, tle_string in all_satellites_tle.items():
         tle_data = get_tle_data(tle_string)
+        coords = get_coordinates(tle_data)
 
-        get_coordinates(tle_data)
+        all_satellites_data[norad_id] = {
+            "name": tle_data["name"],
+            "coordinates": coords
+        }
+
+    return all_satellites_data
 
 
 
