@@ -7,7 +7,9 @@ def get_coordinates(tle_data):
 
     geo_pos = wgs84.geographic_position_of(geocentric)
 
-    lat, lon, height = wgs84.geographic_position_of(geocentric)
+    lat = geo_pos.latitude
+    lon = geo_pos.longitude
+    height = geo_pos.elevation.km
 
     return {
         "lat": lat.degrees,
