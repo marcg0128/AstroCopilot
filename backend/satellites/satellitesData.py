@@ -1,8 +1,8 @@
 import requests
 import time
 
-from backend.helper.readTLE import get_tle_data
-from backend.helper.skyfield import get_coordinates, get_orbit_path
+from backend.satellites.readTLE import get_tle_data
+from backend.satellites.skyfield import get_coordinates, get_orbit_path
 
 BASE_URL = "https://celestrak.org/NORAD/elements/gp.php"
 REQUEST_DELAY_SECONDS = 0.4

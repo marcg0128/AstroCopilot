@@ -1,18 +1,22 @@
 import NavBar from "@/app/components/NavBar";
 import Galaxy from "@/components/Galaxy";
+import Earth from "@/app/sections/Earth";
+import Start from "@/app/sections/Start";
+import Nasa from "@/app/sections/Nasa";
+import SpaceEvents from "@/app/sections/SpaceEvents";
 
 
 export default function Home() {
     return (
         <>
-            <div className="w-full h-screen relative overflow-hidden">
-                <div className="relative z-10">
+            <div className="w-full min-h-screen relative">
+                <div className=" z-50 sticky top-0">
                     <NavBar/>
                 </div>
-                <div className="absolute inset-0 z-0">
+                <div className="fixed inset-0 z-0">
                     <Galaxy
                         starSpeed={0.5}
-                        density={0.7}
+                        density={0.9}
                         hueShift={0}
                         speed={0.1}
                         glowIntensity={0.2}
@@ -24,6 +28,25 @@ export default function Home() {
                         transparent={false}
                     />
                 </div>
+
+                <div className="px-30 z-40 relative">
+                    <Start/>
+
+                    <div >
+                        <Earth/>
+                    </div>
+                    <div>
+                        <Nasa/>
+                    </div>
+                    <div>
+                        <SpaceEvents/>
+                    </div>
+
+                </div>
+                <div className="mt-200">
+                    asd
+                </div>
+
             </div>
         </>
     );

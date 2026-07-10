@@ -6,6 +6,7 @@ import { OrbitControls } from '@react-three/drei';
 import AtmosphereMesh from './AtmosphereMesh';
 import EarthMaterial from './EarthMaterial';
 import VisitersLocationPoint from "@/app/components/earth/VisitersLocationPoint";
+import SatellitesPreview from "@/app/components/earth/satelites/SatellitesPreview";
 
 const sunDirection = new THREE.Vector3(-2, 0.5, 1.5);
 
@@ -28,9 +29,10 @@ function EarthMesh() {
 
                 <sphereGeometry args={[1, 32, 32]} />
                 <EarthMaterial sunDirection={sunDirection} />
+                <SatellitesPreview radius={1.2} />
                 <VisitersLocationPoint radius={1.01} />
             </mesh>
-            <AtmosphereMesh radius={radius * 1.02}/>
+            <AtmosphereMesh radius={radius * 1.02} rimHex={undefined} facingHex={undefined}/>
         </group>
 
     );
@@ -46,6 +48,7 @@ export default function Globe() {
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} />
             <EarthMesh />
+
             <OrbitControls enableZoom={false} />
             <directionalLight position={[x,y,z]} intensity={1} />
         </Canvas>

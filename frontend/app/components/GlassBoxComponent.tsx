@@ -4,9 +4,10 @@ import React, { useRef, useEffect, useState } from "react";
 type BoxComponentProps = {
     children?: React.ReactNode;
     style?: string;
+    padding?: string;
 };
 
-export default function BoxComponent({ children, style = "" }: BoxComponentProps) {
+export default function GlassBoxComponent({ children, style = "" , padding = "5"}: BoxComponentProps) {
     const boxRef = useRef<HTMLDivElement>(null);
     const [roundedClass, setRoundedClass] = useState("rounded-full");
 
@@ -14,8 +15,8 @@ export default function BoxComponent({ children, style = "" }: BoxComponentProps
         const updateRadius = () => {
             if (boxRef.current) {
                 const height = boxRef.current.offsetHeight;
-                // Wenn die Höhe unter 100px ist, rounded-full, sonst rounded-4xl
-                setRoundedClass(height < 100 ? "rounded-full" : "rounded-4xl");
+
+                setRoundedClass(height < 100 ? "rounded-full" : "rounded-[28px]");
             }
         };
 
@@ -33,7 +34,7 @@ export default function BoxComponent({ children, style = "" }: BoxComponentProps
     return (
         <div
             ref={boxRef}
-            className={`p-5 bg-white/1 border border-white/10 ${roundedClass} backdrop-blur-sm shadow-lg ${style}`}
+            className={`p-${padding}  bg-white/1 border border-white/10  ${roundedClass} backdrop-blur-sm  shadow-lg ${style}`}
         >
             {children}
         </div>

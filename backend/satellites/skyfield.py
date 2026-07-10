@@ -1,4 +1,4 @@
-from skyfield.api import EarthSatellite, load, wgs84
+from skyfield.api import EarthSatellite, load, wgs84, utc
 from datetime import datetime, timedelta
 
 def get_coordinates(tle_data):
@@ -22,12 +22,12 @@ def get_orbit_path(tle_data, points=60):
     satellite = EarthSatellite(tle_data["line1"], tle_data["line2"], tle_data["name"])
     ts = load.timescale()
 
-    start_time = datetime.utcnow()
+    start_time = datetime.now(utc)
 
     path = []
     for i in range(points):
         current_time = start_time + timedelta(minutes=i * 2)
-        t = ts.from_datetime(current_time.replace(tzinfo=None))
+        t = ts.from_datetime(current_time)
 
         geocentric = satellite.at(t)
         subpoint = wgs84.geographic_position_of(geocentric)

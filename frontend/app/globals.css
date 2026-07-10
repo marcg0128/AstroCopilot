@@ -21,6 +21,9 @@
   --warning: hsl(51 29% 53%);
   --success: hsl(148 27% 56%);
   --info: hsl(217 46% 66%);
+
+
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -139,4 +142,8 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+h1 {
+  font-family: "Michroma", sans-serif;
 }

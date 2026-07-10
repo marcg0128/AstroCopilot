@@ -50,6 +50,7 @@ function getFresnelShaderArgs({rimHex = 0x0088ff, facingHex = 0x000000} = {}) {
   return args;
 }
 
+
 function AtmosphereMesh({rimHex, facingHex, radius = 1.02}) {
   const args = getFresnelShaderArgs({rimHex, facingHex});
   return (

@@ -1,9 +1,10 @@
 "use client";
-import BoxComponent from "./BoxComponent";
-import Globe from "./earth/Globe";
+import GlassBoxComponent from "@/app/components/GlassBoxComponent";
+import Globe from "@/app/components/earth/Globe";
 
 import {useState} from "react";
 import Image from "next/image";
+import {ButtonPrimary} from "@/app/components/Button";
 
 
 function ToggleSatelliteView() {
@@ -17,7 +18,7 @@ function ToggleSatelliteView() {
     const [isSatelliteView, setIsSatelliteView] = useState<"on" | "off" | "loading">("on");
 
     return (
-        <BoxComponent style=" flex justify-center items-center cursor-pointer  h-16 w-16 p-0">
+        <GlassBoxComponent style=" flex justify-center items-center cursor-pointer  h-16 w-16 p-0">
             <Image
                 src={`/icons/${state[isSatelliteView]}`}
                 alt="Toggle Satellite View"
@@ -29,16 +30,16 @@ function ToggleSatelliteView() {
             />
 
 
-        </BoxComponent>
+        </GlassBoxComponent>
     );
 }
 
 export default function Earth() {
     return (
         <div>
-            <BoxComponent style=" p-8 relative z-10 rounded-4xl">
+            <GlassBoxComponent style=" p-8 relative z-10 rounded-4xl">
                 <div className="mb-8 flex justify-between">
-                    <h1 className=" text-3xl font-bold text-(--text-primary)">Earth</h1>
+                    <h1 className=" text-3xl font-bold text-(--text-primary)">Earth Satellites</h1>
                     <div>
                         <ToggleSatelliteView/>
                     </div>
@@ -49,8 +50,15 @@ export default function Earth() {
                     </div>
                     <Globe></Globe>
                 </div>
+                <div className="absolute bottom-10 left-15">
+                    <ButtonPrimary onClick={() => {
+                        window.location.href = '/satellites';
+                    }}>
+                        Explore more
+                    </ButtonPrimary>
+                </div>
 
-            </BoxComponent>
+            </GlassBoxComponent>
         </div>
 
     );

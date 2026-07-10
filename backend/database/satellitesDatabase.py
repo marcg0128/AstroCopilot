@@ -1,17 +1,12 @@
 import os
-import mysql.connector
+from .databaseSeassion import DatabaseSeassion
 import time
+import json
 
-class DatabaseSeassion:
+class SatellitesDatabase(DatabaseSeassion):
     def __init__(self):
-        self.connection = mysql.connector.connect(
-            host=os.getenv("DB_HOST"),
-            port=int(os.getenv("DB_PORT")),
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            database=os.getenv("DB_NAME")
-        )
-        self.cursor = self.connection.cursor(dictionary=True)
+        super().__init__()
+
 
     def fetch_all_satellites(self):
         query = "SELECT norad_id, name FROM satellites"
@@ -29,12 +24,39 @@ class DatabaseSeassion:
         self.cursor.execute(query, tuple(norad_ids))
         return self.cursor.fetchall()
 
-    def add_satellite_data(self, norad_id, name, latitude, longitude, path):
+    def add_satellite_data(self, norad_id, data):
         query = """
-            INSERT INTO satellites (norad_id, name, lat, lon, path, last_update)
-            VALUES (%s, %s, %s, %s, %s, NOW())
+            INSERT INTO satellites (norad_id, name, lat, lon, height, path, last_update)
+            VALUES (%s, %s, %s, %s, %s, %s, NOW())
+            ON DUPLICATE KEY UPDATE
+                lat = VALUES(lat),
+                lon = VALUES(lon),
+                height = VALUES(height),
+                path = VALUES(path),
+                last_update = NOW()
         """
-        self.cursor.execute(query, (norad_id, name, latitude, longitude, path))
+
+        path_json = json.dumps([
+            {
+                "lat": float(p["lat"]),
+                "lon": float(p["lon"]),
+                "height": float(p["height"])
+            }
+            for p in data["path"]
+        ])
+
+        self.cursor.execute(
+            query,
+            (
+                norad_id,
+                data["name"],
+                float(data["lat"]),
+                float(data["lon"]),
+                float(data["height"]),
+                path_json
+            )
+        )
+
         self.connection.commit()
 
     def update_satellite_data(self, norad_id, name, lat, lon, height, path):
